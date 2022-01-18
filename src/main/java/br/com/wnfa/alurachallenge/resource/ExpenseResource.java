@@ -1,0 +1,34 @@
+package br.com.wnfa.alurachallenge.resource;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.wnfa.alurachallenge.dto.request.ExpenseRequestDTO;
+import br.com.wnfa.alurachallenge.dto.response.ExpenseResponseDTO;
+import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
+import br.com.wnfa.alurachallenge.service.ExpenseService;
+
+@RestController
+@RequestMapping("/despesas")
+public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements ExpenseResouceSwagger {
+	@Autowired
+	private ExpenseService expenseService;
+
+	@Autowired
+    private ApplicationEventPublisher publicarEvento;
+	
+	@PostMapping
+	public ResponseEntity<ExpenseResponseDTO> newIncome(@RequestBody @Valid ExpenseRequestDTO expenseRequestDTO, HttpServletResponse resp) throws Exception {
+		ExpenseResponseDTO response = expenseService.createNewExpense(expenseRequestDTO);
+		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, response.getId()));
+		return responderItemCriado(response);
+	}
+}

@@ -38,6 +38,6 @@ public class ExpenseRequestDTO{
     private Category category;
 	
 	@ApiModelProperty(notes = "Valor da despesa", required = true, example = "500.00")
-    @DecimalMin("0.0")
+    @DecimalMin("0.01")
     private double value;
 }
