@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
 
-import br.com.wnfa.alurachallenge.enums.Categoria;
+import br.com.wnfa.alurachallenge.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,17 +32,17 @@ public class ExpenseDO {
 	private Long id;
 	
 	@NotNull
-	private LocalDate data;
+	private LocalDate date;
 	
 	@NotNull
-    @Column(length=100, unique = true)
-    private String descricao;
+    @Column(length=100)
+    private String description;
 	
 	@NotNull
 	@Column(length=30)
 	@Enumerated(EnumType.STRING)
-	private Categoria categoria;
+	private Category category;
 
 	@NotNull
-    private double valor;
+    private double value;
 }

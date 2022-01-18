@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.wnfa.alurachallenge.exception.IncomeAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
@@ -27,6 +28,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
     private MessageSource messageSource;
+	
+	@ExceptionHandler({IncomeAlreadyRegisteredException.class})
+    public ResponseEntity<Object> handleUsuarioNotFoundException(IncomeAlreadyRegisteredException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("recurso.receita-existente", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 	
 	@ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<Object> handleUsuarioNotFoundException(ResourceNotFoundException ex, WebRequest request){

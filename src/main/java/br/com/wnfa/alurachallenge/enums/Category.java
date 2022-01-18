@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Categoria {
+public enum Category {
 	MORADIA("Moradia"),
 	COMUNICACAO("Comunicação"),
 	TRANSPORTE("Transporte"),

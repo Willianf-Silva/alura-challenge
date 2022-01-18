@@ -12,8 +12,9 @@ public interface IncomeService {
 	 * Cria uma nova receita
 	 * @param receitaRequestDTO
 	 * @return
+	 * @throws Exception 
 	 */
-	IncomeResponseDTO createNewIncome(IncomeRequestDTO incomeRequestDTO);
+	IncomeResponseDTO createNewIncome(IncomeRequestDTO incomeRequestDTO) throws Exception;
 
 	/**
 	 * Atualiza uma receita existente no banco de dados

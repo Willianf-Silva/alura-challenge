@@ -29,12 +29,12 @@ public class IncomeDO {
 	private Long id;
 	
 	@NotNull
-	private LocalDate data;
+	private LocalDate date;
 	
 	@NotNull
-    @Column(length=100, unique = true)
-    private String descricao;
+    @Column(length=100)
+    private String description;
 
 	@NotNull
-    private double valor;
+    private double value;
 }

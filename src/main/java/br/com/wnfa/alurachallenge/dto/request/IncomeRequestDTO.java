@@ -23,13 +23,13 @@ public class IncomeRequestDTO{
 	@ApiModelProperty(notes = "Data da receita", required = true, example = "05/12/2030")
 	@NotNull
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate data;
+	private LocalDate date;
 	
 	@ApiModelProperty(notes = "Descrição da receita", required = true, example = "Salário")
 	@NotBlank
-    private String descricao;
+    private String description;
 
 	@ApiModelProperty(notes = "Valor da receita", required = true, example = "900.00")
-    @DecimalMin("0.0")
-    private double valor;
+    @DecimalMin("0.01")
+    private double value;
 }

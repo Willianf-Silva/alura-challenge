@@ -2,7 +2,9 @@ package br.com.wnfa.alurachallenge.dto.response;
 
 import java.time.LocalDate;
 
-import br.com.wnfa.alurachallenge.enums.Categoria;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.com.wnfa.alurachallenge.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,11 +18,12 @@ public class ExpenseResponseDTO {
 
 	private Long id;
 	
-	private LocalDate data;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate date;
 	
-    private String descricao;
+    private String description;
     
-    private Categoria categoria;
+    private Category category;
 
-    private double valor;
+    private double value;
 }

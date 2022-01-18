@@ -2,6 +2,8 @@ package br.com.wnfa.alurachallenge.dto.response;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +17,10 @@ public class IncomeResponseDTO {
 
 	private Long id;
 	
-	private LocalDate data;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate date;
 	
-    private String descricao;
+    private String description;
 
-    private double valor;
+    private double value;
 }

@@ -31,14 +31,14 @@ public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements I
     private ApplicationEventPublisher publicarEvento;
 	
 	@PostMapping
-	public ResponseEntity<IncomeResponseDTO> newService(@RequestBody @Valid IncomeRequestDTO incomeRequestDTO, HttpServletResponse resp) {
+	public ResponseEntity<IncomeResponseDTO> newIncome(@RequestBody @Valid IncomeRequestDTO incomeRequestDTO, HttpServletResponse resp) throws Exception {
 		IncomeResponseDTO response = incomeService.createNewIncome(incomeRequestDTO);
 		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, response.getId()));
 		return responderItemCriado(response);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<IncomeResponseDTO> updateService(@PathVariable Long id,
+	public ResponseEntity<IncomeResponseDTO> updateIncome(@PathVariable Long id,
 			@RequestBody @Valid IncomeRequestDTO incomeRequestDTO) throws Exception {
 
 		IncomeResponseDTO response = incomeService.updateIncome(id, incomeRequestDTO);

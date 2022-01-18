@@ -20,12 +20,12 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface IncomeResouceSwagger {
 
 	@ApiOperation("Inclui um novo produto ou serviço.")
-	public ResponseEntity<IncomeResponseDTO> newService(
+	public ResponseEntity<IncomeResponseDTO> newIncome(
 			@ApiParam("Serviço ou produto que será incluído.") @RequestBody IncomeRequestDTO serviceRequestDTO,
-			HttpServletResponse resp);
+			HttpServletResponse resp) throws Exception;
 
 	@ApiOperation("Atualiza um produto ou serviço existente.")
-	public ResponseEntity<IncomeResponseDTO> updateService(
+	public ResponseEntity<IncomeResponseDTO> updateIncome(
 			@ApiParam(value = "ID do serviço ou produto", example = "01") @PathVariable Long id,
 			@ApiParam("Serviço ou produto que será incluído.") @RequestBody IncomeRequestDTO serviceRequestDTO
 			) throws Exception;
