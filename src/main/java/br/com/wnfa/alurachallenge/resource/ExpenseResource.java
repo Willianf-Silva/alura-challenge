@@ -5,6 +5,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +49,12 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
 	public ResponseEntity<ExpenseResponseDTO> findById(@PathVariable Long id) throws Exception {
 		ExpenseResponseDTO response = expenseService.findById(id);
 		return responderSucessoComItem(response);
+	}
+	
+	@GetMapping
+	public ResponseEntity<?> findAll(Pageable pageable) {
+		Page<ExpenseResponseDTO> response = expenseService.findAll(pageable);
+		return responderListaDeItensPaginada(response);
 	}
 
 }
