@@ -41,6 +41,7 @@ public class IncomeServiceImpl implements IncomeService{
 	@Override
 	public IncomeResponseDTO updateIncome(Long id, IncomeRequestDTO incomeRequestDTO) throws Exception {
 		IncomeDO incomeDO = this.verifyIfExists(id);
+		verifyIfDuplicate(incomeRequestDTO);
 		BeanUtils.copyProperties(incomeRequestDTO, incomeDO, "id");
 		return incomeMapper.toResponseDTO(incomeRepository.save(incomeDO));
 	}
