@@ -40,4 +40,9 @@ public interface ExpenseResouceSwagger {
 	@ApiOperation("Lista todas as despesas cadastradas no banco de dados")
 	public ResponseEntity<?> findAll(@ApiIgnore Pageable pageable);
 
+
+	@ApiOperation("Remove uma despesa cadastrada no banco de dados")
+	public ResponseEntity<?> deleteById(
+			@ApiParam(value = "Identificador da despesa", example = "01") @PathVariable Long id
+			) throws Exception;
 }

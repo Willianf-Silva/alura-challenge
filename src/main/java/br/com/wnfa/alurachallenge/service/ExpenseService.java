@@ -16,4 +16,6 @@ public interface ExpenseService {
 
 	Page<ExpenseResponseDTO> findAll(Pageable pageable);
 
+	void deleteById(Long id) throws Exception;
+
 }
