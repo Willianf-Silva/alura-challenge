@@ -10,7 +10,7 @@ public interface IncomeService {
 
 	/**
 	 * Cria uma nova receita
-	 * @param receitaRequestDTO
+	 * @param receitaRequestDTO - Dados de entrada da receita para salvar no banco de dados
 	 * @return
 	 * @throws Exception 
 	 */
@@ -18,8 +18,8 @@ public interface IncomeService {
 
 	/**
 	 * Atualiza uma receita existente no banco de dados
-	 * @param id
-	 * @param receitaRequestDTO
+	 * @param id - Identificador unico da receita no banco de dados
+	 * @param receitaRequestDTO - Dados de entrada da receita para salvar no banco de dados
 	 * @return
 	 * @throws Exception 
 	 */
@@ -27,7 +27,7 @@ public interface IncomeService {
 
 	/**
 	 * Busca uma receita existente no banco de dados
-	 * @param id
+	 * @param id - Identificador unico da receita no banco de dados
 	 * @return
 	 * @throws Exception 
 	 */
@@ -38,4 +38,11 @@ public interface IncomeService {
 	 * @return
 	 */
 	Page<IncomeResponseDTO> findAll(Pageable pageable);
+
+	/**
+	 * Remove uma receita existente através do parametro
+	 * @param id - Identificador unico da receita no banco de dados
+	 * @throws Exception 
+	 */
+	void deleteById(Long id) throws Exception;
 }

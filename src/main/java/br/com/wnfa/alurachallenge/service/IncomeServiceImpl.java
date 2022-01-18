@@ -63,6 +63,12 @@ public class IncomeServiceImpl implements IncomeService{
 		return new PageImpl<>(response, pageable, incomeDO.getTotalElements());
 	}
 
+	@Override
+	public void deleteById(Long id) throws Exception {
+		verifyIfExists(id);
+		incomeRepository.deleteById(id);
+	}
+
 	private void verifyIfDuplicate(IncomeRequestDTO incomeRequestDTO) throws IncomeAlreadyRegisteredException {
 		LocalDate firstDayOfMonth = incomeRequestDTO.getDate().with(firstDayOfMonth());
 		LocalDate lastDayOfMonth = incomeRequestDTO.getDate().with(lastDayOfMonth());

@@ -19,25 +19,34 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "Receitas")
 public interface IncomeResouceSwagger {
 
-	@ApiOperation("Inclui um novo produto ou serviço.")
+	@ApiOperation("Inclui uma nova receita.")
 	public ResponseEntity<IncomeResponseDTO> newIncome(
-			@ApiParam("Serviço ou produto que será incluído.") @RequestBody IncomeRequestDTO serviceRequestDTO,
-			HttpServletResponse resp) throws Exception;
-
-	@ApiOperation("Atualiza um produto ou serviço existente.")
-	public ResponseEntity<IncomeResponseDTO> updateIncome(
-			@ApiParam(value = "ID do serviço ou produto", example = "01") @PathVariable Long id,
-			@ApiParam("Serviço ou produto que será incluído.") @RequestBody IncomeRequestDTO serviceRequestDTO
+			@ApiParam("Receita que será incluída") @RequestBody IncomeRequestDTO incomeRequestDTO,
+			HttpServletResponse resp
 			) throws Exception;
 
+	@ApiOperation("Atualiza uma receita existente")
+	public ResponseEntity<IncomeResponseDTO> updateIncome(
+			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id,
+			@ApiParam("Receita que será incluída.") @RequestBody IncomeRequestDTO incomeRequestDTO
+			) throws Exception;
+
+	@ApiOperation("Busca uma receita cadastrada no banco de dados")
 	public ResponseEntity<IncomeResponseDTO> findById(
-			@ApiParam(value = "ID do serviço ou produto", example = "01") @PathVariable Long id
+			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id
 			) throws Exception;
 	
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
-	@ApiOperation("Lista todos os servios cadastrados no banco de dados")
-	public ResponseEntity<?> findAll(@ApiIgnore Pageable pageable);
+	@ApiOperation("Lista todas as receitas cadastradas no banco de dados")
+	public ResponseEntity<?> findAll(
+			@ApiIgnore Pageable pageable
+			);
+	
+	@ApiOperation("Remove uma receita cadastrada no banco de dados")
+	public ResponseEntity<?> deleteById(
+			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id
+			) throws Exception;
 }
