@@ -41,6 +41,12 @@ public class ExpenseServiceImpl implements ExpenseService{
 		BeanUtils.copyProperties(expenseRequestDTO, incomeDO, "id");
 		return incomeMapper.toResponseDTO(expenseRepository.save(incomeDO));
 	}
+	
+	@Override
+	public ExpenseResponseDTO findById(Long id) throws Exception {
+		ExpenseDO incomeDO = this.verifyIfExists(id);
+		return incomeMapper.toResponseDTO(incomeDO);
+	}
 
 	private void verifyIfDuplicate(ExpenseRequestDTO expenseRequestDTO) throws ExpenseAlreadyRegisteredException {
 		LocalDate firstDayOfMonth = expenseRequestDTO.getDate().with(firstDayOfMonth());

@@ -9,4 +9,6 @@ public interface ExpenseService {
 
 	ExpenseResponseDTO updateExpense(Long id, ExpenseRequestDTO expenseRequestDTO) throws Exception;
 
+	ExpenseResponseDTO findById(Long id) throws Exception;
+
 }

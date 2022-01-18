@@ -27,4 +27,9 @@ public interface ExpenseResouceSwagger {
 			@ApiParam("Despesa que será incluída.") @RequestBody ExpenseRequestDTO expenseRequestDTO
 			) throws Exception;
 
+	@ApiOperation("Busca uma despesa cadastrada no banco de dados")
+	public ResponseEntity<ExpenseResponseDTO> findById(
+			@ApiParam(value = "Identificador da despesa", example = "01") @PathVariable Long id
+			) throws Exception;
+	
 }

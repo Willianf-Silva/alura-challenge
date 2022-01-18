@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,4 +42,11 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
 		ExpenseResponseDTO response = expenseService.updateExpense(id, expenseRequestDTO);
 		return responderSucessoComItem(response);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<ExpenseResponseDTO> findById(@PathVariable Long id) throws Exception {
+		ExpenseResponseDTO response = expenseService.findById(id);
+		return responderSucessoComItem(response);
+	}
+
 }
