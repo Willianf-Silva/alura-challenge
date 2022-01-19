@@ -33,7 +33,7 @@ public class IncomeServiceImpl implements IncomeService{
 	
 	@Override
 	public IncomeResponseDTO createNewIncome(IncomeRequestDTO incomeRequestDTO) throws Exception {
-		verifyIfDuplicate(incomeRequestDTO);
+		verifyIfDuplicate(null, incomeRequestDTO);
 		IncomeDO incomeSaved = incomeRepository.save(incomeMapper.toModel(incomeRequestDTO));
 		return incomeMapper.toResponseDTO(incomeSaved);
 	}
@@ -41,7 +41,7 @@ public class IncomeServiceImpl implements IncomeService{
 	@Override
 	public IncomeResponseDTO updateIncome(Long id, IncomeRequestDTO incomeRequestDTO) throws Exception {
 		IncomeDO incomeDO = this.verifyIfExists(id);
-		verifyIfDuplicate(incomeRequestDTO);
+		verifyIfDuplicate(id, incomeRequestDTO);
 		BeanUtils.copyProperties(incomeRequestDTO, incomeDO, "id");
 		return incomeMapper.toResponseDTO(incomeRepository.save(incomeDO));
 	}
@@ -69,11 +69,19 @@ public class IncomeServiceImpl implements IncomeService{
 		incomeRepository.deleteById(id);
 	}
 
-	private void verifyIfDuplicate(IncomeRequestDTO incomeRequestDTO) throws IncomeAlreadyRegisteredException {
+	private void verifyIfDuplicate(Long id, IncomeRequestDTO incomeRequestDTO) throws IncomeAlreadyRegisteredException {
 		LocalDate firstDayOfMonth = incomeRequestDTO.getDate().with(firstDayOfMonth());
 		LocalDate lastDayOfMonth = incomeRequestDTO.getDate().with(lastDayOfMonth());
 		List<IncomeDO> incomeList = incomeRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth, lastDayOfMonth, incomeRequestDTO.getDescription());
-		if (!incomeList.isEmpty()) {
+
+		//TODO Melhorar a lógica da validação estudando boas praticas de progração
+		
+		if (incomeList.size() == 1) {
+			if (id == null || incomeList.get(0).getId() != id) {
+				throw new IncomeAlreadyRegisteredException();
+			}
+		}
+		if (incomeList.size() > 1) {
 			throw new IncomeAlreadyRegisteredException();
 		}
 	}
