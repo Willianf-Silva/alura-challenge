@@ -74,7 +74,7 @@ public class IncomeServiceImpl implements IncomeService{
 		LocalDate lastDayOfMonth = incomeRequestDTO.getDate().with(lastDayOfMonth());
 		List<IncomeDO> incomeList = incomeRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth, lastDayOfMonth, incomeRequestDTO.getDescription());
 
-		//TODO Melhorar a lógica da validação estudando boas praticas de progração
+		//TODO Melhorar a lógica da validação estudando boas praticas de programação
 		
 		if (incomeList.size() == 1) {
 			if (id == null || incomeList.get(0).getId() != id) {

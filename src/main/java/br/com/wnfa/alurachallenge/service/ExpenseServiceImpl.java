@@ -33,7 +33,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public ExpenseResponseDTO createNewExpense(ExpenseRequestDTO expenseRequestDTO) throws Exception {
-		verifyIfDuplicate(expenseRequestDTO);
+		verifyIfDuplicate(null, expenseRequestDTO);
 		ExpenseDO expenseSaved = expenseRepository.save(expenseMapper.toModel(expenseRequestDTO));
 		return expenseMapper.toResponseDTO(expenseSaved);
 	}
@@ -41,7 +41,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	public ExpenseResponseDTO updateExpense(Long id, ExpenseRequestDTO expenseRequestDTO) throws Exception {
 		ExpenseDO expenseDO = this.verifyIfExists(id);
-		verifyIfDuplicate(expenseRequestDTO);
+		verifyIfDuplicate(id, expenseRequestDTO);
 		BeanUtils.copyProperties(expenseRequestDTO, expenseDO, "id");
 		return expenseMapper.toResponseDTO(expenseRepository.save(expenseDO));
 	}
@@ -68,12 +68,21 @@ public class ExpenseServiceImpl implements ExpenseService {
 		expenseRepository.deleteById(id);
 	}
 
-	private void verifyIfDuplicate(ExpenseRequestDTO expenseRequestDTO) throws ExpenseAlreadyRegisteredException {
+	private void verifyIfDuplicate(Long id, ExpenseRequestDTO expenseRequestDTO)
+			throws ExpenseAlreadyRegisteredException {
 		LocalDate firstDayOfMonth = expenseRequestDTO.getDate().with(firstDayOfMonth());
 		LocalDate lastDayOfMonth = expenseRequestDTO.getDate().with(lastDayOfMonth());
 		List<ExpenseDO> expenseList = expenseRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth,
 				lastDayOfMonth, expenseRequestDTO.getDescription());
-		if (!expenseList.isEmpty()) {
+
+		// TODO Melhorar a lógica da validação estudando boas praticas de programação
+
+		if (expenseList.size() == 1) {
+			if (id == null || expenseList.get(0).getId() != id) {
+				throw new ExpenseAlreadyRegisteredException();
+			}
+		}
+		if (expenseList.size() > 1) {
 			throw new ExpenseAlreadyRegisteredException();
 		}
 	}
