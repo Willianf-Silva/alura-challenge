@@ -23,7 +23,7 @@ import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
 import br.com.wnfa.alurachallenge.service.ExpenseService;
 
 @RestController
-@RequestMapping("/despesas")
+@RequestMapping("/api/v1/despesas")
 public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements ExpenseResouceSwagger {
 	@Autowired
 	private ExpenseService expenseService;

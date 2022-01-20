@@ -23,7 +23,7 @@ import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
 import br.com.wnfa.alurachallenge.service.IncomeService;
 
 @RestController
-@RequestMapping("/receitas")
+@RequestMapping("/api/v1/receitas")
 public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements IncomeResouceSwagger {
 	@Autowired
 	private IncomeService incomeService;
