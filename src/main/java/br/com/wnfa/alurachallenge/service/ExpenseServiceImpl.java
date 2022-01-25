@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import br.com.wnfa.alurachallenge.dto.request.ExpenseRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.ExpenseResponseDTO;
 import br.com.wnfa.alurachallenge.entity.ExpenseDO;
+import br.com.wnfa.alurachallenge.enums.Category;
 import br.com.wnfa.alurachallenge.exception.ExpenseAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
 import br.com.wnfa.alurachallenge.mapper.ExpenseMapper;
@@ -34,6 +35,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	public ExpenseResponseDTO createNewExpense(ExpenseRequestDTO expenseRequestDTO) throws Exception {
 		verifyIfDuplicate(null, expenseRequestDTO);
+		if (expenseRequestDTO.getCategory() == null) {
+			expenseRequestDTO.setCategory(Category.OUTRAS);
+		}
 		ExpenseDO expenseSaved = expenseRepository.save(expenseMapper.toModel(expenseRequestDTO));
 		return expenseMapper.toResponseDTO(expenseSaved);
 	}

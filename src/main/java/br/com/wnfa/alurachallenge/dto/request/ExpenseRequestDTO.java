@@ -33,7 +33,6 @@ public class ExpenseRequestDTO{
     private String description;
 
 	@ApiModelProperty(notes = "Categoria da despesa", required = true, example = "MORADIA")
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Category category;
 	
