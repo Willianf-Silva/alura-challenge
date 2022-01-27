@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.wnfa.alurachallenge.dto.request.ExpenseRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.ExpenseResponseDTO;
+import br.com.wnfa.alurachallenge.repository.filter.ExpenseFilter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,7 +39,9 @@ public interface ExpenseResouceSwagger {
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
 	@ApiOperation("Lista todas as despesas cadastradas no banco de dados")
-	public ResponseEntity<?> findAll(@ApiIgnore Pageable pageable);
+	public ResponseEntity<?> findAll(
+			@ApiParam("Filtro para consulta de despesa") ExpenseFilter expenseFilter, 
+			@ApiIgnore Pageable pageable);
 
 
 	@ApiOperation("Remove uma despesa cadastrada no banco de dados")

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.wnfa.alurachallenge.dto.request.ExpenseRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.ExpenseResponseDTO;
+import br.com.wnfa.alurachallenge.repository.filter.ExpenseFilter;
 
 public interface ExpenseService {
 
@@ -14,7 +15,7 @@ public interface ExpenseService {
 
 	ExpenseResponseDTO findById(Long id) throws Exception;
 
-	Page<ExpenseResponseDTO> findAll(Pageable pageable);
+	Page<ExpenseResponseDTO> findAll(ExpenseFilter expenseFilter, Pageable pageable);
 
 	void deleteById(Long id) throws Exception;
 

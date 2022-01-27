@@ -6,8 +6,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.wnfa.alurachallenge.entity.ExpenseDO;
+import br.com.wnfa.alurachallenge.repository.custom.ExpenseRepositoryCustom;
 
-public interface ExpenseRepository extends JpaRepository<ExpenseDO, Long>{
+public interface ExpenseRepository extends JpaRepository<ExpenseDO, Long>, ExpenseRepositoryCustom{
 
 	List<ExpenseDO> findByDateBetweenAndDescriptionIgnoreCase(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth,
 			String description);

@@ -23,6 +23,7 @@ import br.com.wnfa.alurachallenge.exception.ExpenseAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
 import br.com.wnfa.alurachallenge.mapper.ExpenseMapper;
 import br.com.wnfa.alurachallenge.repository.ExpenseRepository;
+import br.com.wnfa.alurachallenge.repository.filter.ExpenseFilter;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -57,8 +58,8 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public Page<ExpenseResponseDTO> findAll(Pageable pageable) {
-		Page<ExpenseDO> expenseDO = expenseRepository.findAll(pageable);
+	public Page<ExpenseResponseDTO> findAll(ExpenseFilter expenseFilter, Pageable pageable) {
+		Page<ExpenseDO> expenseDO = expenseRepository.FindExpenses(expenseFilter, pageable);
 
 		List<ExpenseResponseDTO> response = expenseDO.stream().map(expenseMapper::toResponseDTO)
 				.collect(Collectors.toList());
