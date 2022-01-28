@@ -68,6 +68,21 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
+	public Page<ExpenseResponseDTO> findByYearAndMonth(Long year, Long month, Pageable pageable) {
+		LocalDate dateFilter = LocalDate.of(year.intValue(), month.intValue(), 1);
+		LocalDate firstDayOfMonth = dateFilter.with(firstDayOfMonth());
+		LocalDate lastDayOfMonth = dateFilter.with(lastDayOfMonth());
+
+		Page<ExpenseDO> expenses = expenseRepository.findByDateBetweenOrderByDateAsc(firstDayOfMonth, lastDayOfMonth, pageable);
+
+		List<ExpenseResponseDTO> response = expenses.stream()
+				.map(expenseMapper::toResponseDTO)
+				.collect(Collectors.toList());
+		
+		return new PageImpl<>(response, pageable, expenses.getTotalElements());
+	}
+
+	@Override
 	public void deleteById(Long id) throws Exception {
 		verifyIfExists(id);
 		expenseRepository.deleteById(id);

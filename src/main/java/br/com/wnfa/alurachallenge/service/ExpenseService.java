@@ -19,4 +19,13 @@ public interface ExpenseService {
 
 	void deleteById(Long id) throws Exception;
 
+	/**
+	 * Método responsável por buscar todas as despesas para determinado ano e mes
+	 * @param year
+	 * @param month
+	 * @param pageable 
+	 * @return
+	 */
+	Page<ExpenseResponseDTO> findByYearAndMonth(Long year, Long month, Pageable pageable);
+
 }

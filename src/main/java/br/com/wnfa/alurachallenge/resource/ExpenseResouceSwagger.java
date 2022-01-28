@@ -2,6 +2,7 @@ package br.com.wnfa.alurachallenge.resource;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +42,20 @@ public interface ExpenseResouceSwagger {
 	@ApiOperation("Lista todas as despesas cadastradas no banco de dados")
 	public ResponseEntity<?> findAll(
 			@ApiParam("Filtro para consulta de despesa") ExpenseFilter expenseFilter, 
-			@ApiIgnore Pageable pageable);
+			@ApiIgnore Pageable pageable
+			);
 
-
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
+		@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
+		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiOperation("Lista todas as despesas cadastradas de acordo com o ano e mês informado")
+	public ResponseEntity<Page<ExpenseResponseDTO>> findByMesAndAno(
+			@ApiParam(value = "Filtrar o ano da despesa", example = "2030") @PathVariable Long year,
+			@ApiParam(value = "Filtrar o mês da despesa", example = "12") @PathVariable Long month, 
+			@ApiIgnore Pageable pageable
+			);
+	
 	@ApiOperation("Remove uma despesa cadastrada no banco de dados")
 	public ResponseEntity<?> deleteById(
 			@ApiParam(value = "Identificador da despesa", example = "01") @PathVariable Long id

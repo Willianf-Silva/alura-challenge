@@ -53,6 +53,12 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
 		return responderSucessoComItem(response);
 	}
 	
+	@GetMapping("/{ano}/{mes}")
+	public ResponseEntity<Page<ExpenseResponseDTO>> findByMesAndAno(@PathVariable Long ano, @PathVariable Long mes, Pageable pageable){
+		Page<ExpenseResponseDTO> expenses = expenseService.findByYearAndMonth(ano, mes, pageable);
+		return responderListaDeItensPaginada(expenses);
+	}
+	
 	@GetMapping
 	public ResponseEntity<?> findAll(ExpenseFilter expenseFilter, Pageable pageable) {
 		Page<ExpenseResponseDTO> response = expenseService.findAll(expenseFilter, pageable);
