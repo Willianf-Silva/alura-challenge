@@ -52,6 +52,12 @@ public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements I
 		IncomeResponseDTO response = incomeService.findById(id);
 		return responderSucessoComItem(response);
 	}
+	
+	@GetMapping("/{ano}/{mes}")
+	public ResponseEntity<Page<IncomeResponseDTO>> findByMesAndAno(@PathVariable Long ano, @PathVariable Long mes, Pageable pageable){
+		Page<IncomeResponseDTO> incomes = incomeService.findByYearAndMonth(ano, mes, pageable);
+		return responderListaDeItensPaginada(incomes);
+	}
 
 	@GetMapping
 	public ResponseEntity<?> findAll(IncomeFilter incomeFilter, Pageable pageable) {

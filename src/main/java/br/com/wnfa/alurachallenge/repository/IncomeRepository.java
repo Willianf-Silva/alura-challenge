@@ -13,7 +13,9 @@ import br.com.wnfa.alurachallenge.entity.IncomeDO;
 
 @Repository
 public interface IncomeRepository extends JpaRepository<IncomeDO, Long>{
-	public List<IncomeDO> findByDateBetweenAndDescriptionIgnoreCase(LocalDate dateStart, LocalDate dateEnd, String description);
+	public Page<IncomeDO> findByDateBetweenOrderByDateAsc(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth, Pageable pageable);
+	
+	public List<IncomeDO> findByDateBetweenAndDescriptionIgnoreCase(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth, String description);
 
 	@Query("FROM IncomeDO i WHERE LOWER(i.description) LIKE %:description%")
 	public Page<IncomeDO> findByDescription(String description, Pageable pageable);

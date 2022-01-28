@@ -2,10 +2,10 @@ package br.com.wnfa.alurachallenge.resource;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.wnfa.alurachallenge.dto.request.IncomeRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.IncomeResponseDTO;
@@ -22,14 +22,14 @@ public interface IncomeResouceSwagger {
 
 	@ApiOperation("Inclui uma nova receita.")
 	public ResponseEntity<IncomeResponseDTO> newIncome(
-			@ApiParam("Receita que será incluída") @RequestBody IncomeRequestDTO incomeRequestDTO,
+			@ApiParam("Receita que será incluída") IncomeRequestDTO incomeRequestDTO,
 			HttpServletResponse resp
 			) throws Exception;
 
 	@ApiOperation("Atualiza uma receita existente")
 	public ResponseEntity<IncomeResponseDTO> updateIncome(
 			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id,
-			@ApiParam("Receita que será incluída.") @RequestBody IncomeRequestDTO incomeRequestDTO
+			@ApiParam("Receita que será incluída.") IncomeRequestDTO incomeRequestDTO
 			) throws Exception;
 
 	@ApiOperation("Busca uma receita cadastrada no banco de dados")
@@ -44,6 +44,17 @@ public interface IncomeResouceSwagger {
 	@ApiOperation("Lista todas as receitas cadastradas no banco de dados")
 	public ResponseEntity<?> findAll(
 			@ApiParam("Filtro para consulta de receita") IncomeFilter incomeFilter,
+			@ApiIgnore Pageable pageable
+			);
+	
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
+		@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
+		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiOperation("Lista todas as receitas cadastradas de acordo com o ano e mês informado")
+	public ResponseEntity<Page<IncomeResponseDTO>> findByMesAndAno(
+			@ApiParam(value = "Filtrar o ano da receita", example = "2030") @PathVariable Long year,
+			@ApiParam(value = "Filtrar o mês da receita", example = "12") @PathVariable Long month,
 			@ApiIgnore Pageable pageable
 			);
 	

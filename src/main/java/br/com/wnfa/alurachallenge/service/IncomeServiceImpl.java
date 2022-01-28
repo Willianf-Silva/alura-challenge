@@ -68,6 +68,21 @@ public class IncomeServiceImpl implements IncomeService {
 	}
 
 	@Override
+	public Page<IncomeResponseDTO> findByYearAndMonth(Long year, Long month, Pageable pageable) {
+		LocalDate dateFilter = LocalDate.of(year.intValue(), month.intValue(), 1);
+		LocalDate firstDayOfMonth = dateFilter.with(firstDayOfMonth());
+		LocalDate lastDayOfMonth = dateFilter.with(lastDayOfMonth());
+		
+		Page<IncomeDO> incomes = incomeRepository.findByDateBetweenOrderByDateAsc(firstDayOfMonth, lastDayOfMonth, pageable);
+		
+		List<IncomeResponseDTO> response = incomes.stream()
+				.map(incomeMapper::toResponseDTO)
+				.collect(Collectors.toList());
+		
+		return new PageImpl<>(response, pageable, incomes.getTotalElements());
+	}
+
+	@Override
 	public void deleteById(Long id) throws Exception {
 		verifyIfExists(id);
 		incomeRepository.deleteById(id);
