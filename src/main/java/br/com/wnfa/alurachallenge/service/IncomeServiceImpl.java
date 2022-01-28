@@ -22,15 +22,16 @@ import br.com.wnfa.alurachallenge.exception.IncomeAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
 import br.com.wnfa.alurachallenge.mapper.IncomeMapper;
 import br.com.wnfa.alurachallenge.repository.IncomeRepository;
+import br.com.wnfa.alurachallenge.repository.filter.IncomeFilter;
 
 @Service
-public class IncomeServiceImpl implements IncomeService{
+public class IncomeServiceImpl implements IncomeService {
 
 	@Autowired
 	private IncomeRepository incomeRepository;
-	
+
 	private final IncomeMapper incomeMapper = IncomeMapper.INSTANCE;
-	
+
 	@Override
 	public IncomeResponseDTO createNewIncome(IncomeRequestDTO incomeRequestDTO) throws Exception {
 		verifyIfDuplicate(null, incomeRequestDTO);
@@ -53,14 +54,17 @@ public class IncomeServiceImpl implements IncomeService{
 	}
 
 	@Override
-	public Page<IncomeResponseDTO> findAll(Pageable pageable) {
-		Page<IncomeDO> incomeDO = incomeRepository.findAll(pageable);
+	public Page<IncomeResponseDTO> findAll(IncomeFilter incomeFilter, Pageable pageable) {
 		
-		List<IncomeResponseDTO> response = incomeDO.stream()
+		String description = incomeFilter.getDescription() != null ? incomeFilter.getDescription() : "";
+		
+		Page<IncomeDO> incomes = incomeRepository.findByDescription(description.toLowerCase(), pageable);
+		
+		List<IncomeResponseDTO> response = incomes.stream()
 				.map(incomeMapper::toResponseDTO)
 				.collect(Collectors.toList());
 
-		return new PageImpl<>(response, pageable, incomeDO.getTotalElements());
+		return new PageImpl<>(response, pageable, incomes.getTotalElements());
 	}
 
 	@Override
@@ -72,10 +76,11 @@ public class IncomeServiceImpl implements IncomeService{
 	private void verifyIfDuplicate(Long id, IncomeRequestDTO incomeRequestDTO) throws IncomeAlreadyRegisteredException {
 		LocalDate firstDayOfMonth = incomeRequestDTO.getDate().with(firstDayOfMonth());
 		LocalDate lastDayOfMonth = incomeRequestDTO.getDate().with(lastDayOfMonth());
-		List<IncomeDO> incomeList = incomeRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth, lastDayOfMonth, incomeRequestDTO.getDescription());
+		List<IncomeDO> incomeList = incomeRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth,
+				lastDayOfMonth, incomeRequestDTO.getDescription());
 
-		//TODO Melhorar a lógica da validação estudando boas praticas de programação
-		
+		// TODO Melhorar a lógica da validação estudando boas praticas de programação
+
 		if (incomeList.size() == 1) {
 			if (id == null || incomeList.get(0).getId() != id) {
 				throw new IncomeAlreadyRegisteredException();
@@ -86,7 +91,7 @@ public class IncomeServiceImpl implements IncomeService{
 		}
 	}
 
-	private IncomeDO verifyIfExists(Long id) throws Exception{
+	private IncomeDO verifyIfExists(Long id) throws Exception {
 		Optional<IncomeDO> incomeOptional = incomeRepository.findById(id);
 		if (incomeOptional.isEmpty()) {
 			throw new ResourceNotFoundException();

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.wnfa.alurachallenge.dto.request.IncomeRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.IncomeResponseDTO;
+import br.com.wnfa.alurachallenge.repository.filter.IncomeFilter;
 
 public interface IncomeService {
 
@@ -35,9 +36,10 @@ public interface IncomeService {
 
 	/**	
 	 * Busca todas as receitas existentes no banco de dados
+	 * @param incomeFilter 
 	 * @return
 	 */
-	Page<IncomeResponseDTO> findAll(Pageable pageable);
+	Page<IncomeResponseDTO> findAll(IncomeFilter incomeFilter, Pageable pageable);
 
 	/**
 	 * Remove uma receita existente através do parametro

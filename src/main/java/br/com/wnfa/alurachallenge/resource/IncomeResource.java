@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.wnfa.alurachallenge.dto.request.IncomeRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.IncomeResponseDTO;
 import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
+import br.com.wnfa.alurachallenge.repository.filter.IncomeFilter;
 import br.com.wnfa.alurachallenge.service.IncomeService;
 
 @RestController
@@ -53,8 +54,8 @@ public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements I
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findAll(Pageable pageable) {
-		Page<IncomeResponseDTO> response = incomeService.findAll(pageable);
+	public ResponseEntity<?> findAll(IncomeFilter incomeFilter, Pageable pageable) {
+		Page<IncomeResponseDTO> response = incomeService.findAll(incomeFilter, pageable);
 		return responderListaDeItensPaginada(response);
 	}
 	

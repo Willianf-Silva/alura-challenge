@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.wnfa.alurachallenge.dto.request.IncomeRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.IncomeResponseDTO;
+import br.com.wnfa.alurachallenge.repository.filter.IncomeFilter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -42,6 +43,7 @@ public interface IncomeResouceSwagger {
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
 	@ApiOperation("Lista todas as receitas cadastradas no banco de dados")
 	public ResponseEntity<?> findAll(
+			@ApiParam("Filtro para consulta de receita") IncomeFilter incomeFilter,
 			@ApiIgnore Pageable pageable
 			);
 	
