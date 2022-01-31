@@ -35,4 +35,9 @@ public interface UserResourceSwagger {
 		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
 	@ApiOperation("Lista todos os usuários cadastrados no banco de dados")
 	public ResponseEntity<?> findAll(@ApiIgnore Pageable pageable);
+	
+	@ApiOperation("Busca um usuário cadastrado no banco de dados")
+	public ResponseEntity<UserResponseDTO> findById(
+			@ApiParam(value = "Identificador do usuário", example = "01")@PathVariable Long id
+			) throws Exception;
 }

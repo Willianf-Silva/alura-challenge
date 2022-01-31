@@ -52,4 +52,9 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 		return responderListaDeItensPaginada(response);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) throws Exception {
+		UserResponseDTO response = userService.findById(id);
+		return responderSucessoComItem(response);
+	}
 }

@@ -14,4 +14,6 @@ public interface UserService {
 
 	Page<UserResponseDTO> findAll(Pageable pageable);
 
+	UserResponseDTO findById(Long id) throws Exception;
+
 }

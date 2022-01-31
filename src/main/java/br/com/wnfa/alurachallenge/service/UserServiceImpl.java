@@ -53,6 +53,12 @@ public class UserServiceImpl implements UserService{
 		
 		return new PageImpl<>(response, pageable, users.getTotalElements());
 	}
+	
+	@Override
+	public UserResponseDTO findById(Long id) throws Exception {
+		UserDO userDO = verifyExists(id);
+		return userMapper.toResponseDTO(userDO);
+	}
 
 	private UserDO verifyExists(Long id) throws ResourceNotFoundException {
 		Optional<UserDO> userDO = userRepository.findById(id);
