@@ -5,7 +5,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +44,12 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 
 		UserResponseDTO response = userService.updateUser(id, userRequestDTO);
 		return responderSucessoComItem(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<?> findAll(Pageable pageable) {
+		Page<UserResponseDTO> response = userService.findAll(pageable);
+		return responderListaDeItensPaginada(response);
 	}
 
 }

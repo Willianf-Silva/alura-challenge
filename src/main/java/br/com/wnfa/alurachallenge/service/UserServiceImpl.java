@@ -1,10 +1,15 @@
 package br.com.wnfa.alurachallenge.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfa.alurachallenge.dto.request.UserRequestDTO;
@@ -36,6 +41,17 @@ public class UserServiceImpl implements UserService{
 		BeanUtils.copyProperties(userRequestDTO, userDO, "id");
 		userDO.setDateUpdate(LocalDate.now());
 		return userMapper.toResponseDTO(userRepository.save(userDO));
+	}
+	
+	@Override
+	public Page<UserResponseDTO> findAll(Pageable pageable) {
+		Page<UserDO> users = userRepository.findAll(pageable);
+		
+		List<UserResponseDTO> response = users.stream()
+				.map(userMapper::toResponseDTO)
+				.collect(Collectors.toList());
+		
+		return new PageImpl<>(response, pageable, users.getTotalElements());
 	}
 
 	private UserDO verifyExists(Long id) throws ResourceNotFoundException {
