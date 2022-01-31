@@ -1,5 +1,6 @@
 package br.com.wnfa.alurachallenge.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -36,5 +37,5 @@ public class IncomeDO {
     private String description;
 
 	@NotNull
-    private double value;
+    private BigDecimal value;
 }

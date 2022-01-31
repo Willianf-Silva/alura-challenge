@@ -54,7 +54,7 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
 	}
 	
 	@GetMapping("/{ano}/{mes}")
-	public ResponseEntity<Page<ExpenseResponseDTO>> findByMesAndAno(@PathVariable Long ano, @PathVariable Long mes, Pageable pageable){
+	public ResponseEntity<Page<ExpenseResponseDTO>> findByMesAndAno(@PathVariable Integer ano, @PathVariable Integer mes, Pageable pageable){
 		Page<ExpenseResponseDTO> expenses = expenseService.findByYearAndMonth(ano, mes, pageable);
 		return responderListaDeItensPaginada(expenses);
 	}

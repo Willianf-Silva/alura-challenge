@@ -1,5 +1,8 @@
 package br.com.wnfa.alurachallenge.service;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -55,5 +58,13 @@ public interface IncomeService {
 	 * @param pageable 
 	 * @return
 	 */
-	Page<IncomeResponseDTO> findByYearAndMonth(Long year, Long month, Pageable pageable);
+	Page<IncomeResponseDTO> findByYearAndMonth(Integer year, Integer month, Pageable pageable);
+
+	/**
+	 * Método responsável por obter a somatoria das receitas no mês
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	Optional<BigDecimal> summaryByMonth(Integer year, Integer month);
 }

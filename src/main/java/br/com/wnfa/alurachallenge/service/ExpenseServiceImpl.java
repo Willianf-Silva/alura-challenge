@@ -3,6 +3,7 @@ package br.com.wnfa.alurachallenge.service;
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfa.alurachallenge.dto.request.ExpenseRequestDTO;
+import br.com.wnfa.alurachallenge.dto.response.ExpenseCategoryDTO;
 import br.com.wnfa.alurachallenge.dto.response.ExpenseResponseDTO;
 import br.com.wnfa.alurachallenge.entity.ExpenseDO;
 import br.com.wnfa.alurachallenge.enums.Category;
@@ -68,18 +70,35 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public Page<ExpenseResponseDTO> findByYearAndMonth(Long year, Long month, Pageable pageable) {
-		LocalDate dateFilter = LocalDate.of(year.intValue(), month.intValue(), 1);
-		LocalDate firstDayOfMonth = dateFilter.with(firstDayOfMonth());
-		LocalDate lastDayOfMonth = dateFilter.with(lastDayOfMonth());
+	public Page<ExpenseResponseDTO> findByYearAndMonth(Integer year, Integer month, Pageable pageable) {
 
-		Page<ExpenseDO> expenses = expenseRepository.findByDateBetweenOrderByDateAsc(firstDayOfMonth, lastDayOfMonth, pageable);
+		Page<ExpenseDO> expenses = expenseRepository.findByDateBetweenOrderByDateAsc(
+				getFirstDayOfMonth(year, month), 
+				getLastDayOfMonth(year, month), 
+				pageable
+				);
 
 		List<ExpenseResponseDTO> response = expenses.stream()
 				.map(expenseMapper::toResponseDTO)
 				.collect(Collectors.toList());
 		
 		return new PageImpl<>(response, pageable, expenses.getTotalElements());
+	}
+
+	@Override
+	public Optional<BigDecimal> summaryByMonth(Integer year, Integer month) {
+		return expenseRepository.findSumValueMonth(
+				getFirstDayOfMonth(year, month), 
+				getLastDayOfMonth(year, month)
+				);
+	}
+
+	@Override
+	public List<ExpenseCategoryDTO> summaryByCategory(Integer year, Integer month) {
+		return expenseRepository.summaryCategoryByMonth(
+				getFirstDayOfMonth(year, month), 
+				getLastDayOfMonth(year, month)
+				);
 	}
 
 	@Override
@@ -90,10 +109,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	private void verifyIfDuplicate(Long id, ExpenseRequestDTO expenseRequestDTO)
 			throws ExpenseAlreadyRegisteredException {
-		LocalDate firstDayOfMonth = expenseRequestDTO.getDate().with(firstDayOfMonth());
-		LocalDate lastDayOfMonth = expenseRequestDTO.getDate().with(lastDayOfMonth());
-		List<ExpenseDO> expenseList = expenseRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth,
-				lastDayOfMonth, expenseRequestDTO.getDescription());
+		List<ExpenseDO> expenseList = expenseRepository.findByDateBetweenAndDescriptionIgnoreCase(
+				getFirstDayOfMonth(expenseRequestDTO.getDate().getYear(), expenseRequestDTO.getDate().getMonthValue()),
+				getLastDayOfMonth(expenseRequestDTO.getDate().getYear(), expenseRequestDTO.getDate().getMonthValue()), 
+				expenseRequestDTO.getDescription()
+				);
 
 		// TODO Melhorar a lógica da validação estudando boas praticas de programação
 
@@ -113,6 +133,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 			throw new ResourceNotFoundException();
 		}
 		return expenseOptional.get();
+	}
+
+	private LocalDate getLastDayOfMonth(Integer year, Integer month) {
+		LocalDate dateFilter = LocalDate.of(year, month, 1);
+		return dateFilter.with(lastDayOfMonth());
+	}
+
+	private LocalDate getFirstDayOfMonth(Integer year, Integer month) {
+		LocalDate dateFilter = LocalDate.of(year, month, 1);
+		return dateFilter.with(firstDayOfMonth());
 	}
 
 }

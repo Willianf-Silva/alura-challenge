@@ -3,6 +3,7 @@ package br.com.wnfa.alurachallenge.service;
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -55,31 +56,37 @@ public class IncomeServiceImpl implements IncomeService {
 
 	@Override
 	public Page<IncomeResponseDTO> findAll(IncomeFilter incomeFilter, Pageable pageable) {
-		
+
 		String description = incomeFilter.getDescription() != null ? incomeFilter.getDescription() : "";
-		
+
 		Page<IncomeDO> incomes = incomeRepository.findByDescription(description.toLowerCase(), pageable);
-		
-		List<IncomeResponseDTO> response = incomes.stream()
-				.map(incomeMapper::toResponseDTO)
+
+		List<IncomeResponseDTO> response = incomes.stream().map(incomeMapper::toResponseDTO)
 				.collect(Collectors.toList());
 
 		return new PageImpl<>(response, pageable, incomes.getTotalElements());
 	}
 
 	@Override
-	public Page<IncomeResponseDTO> findByYearAndMonth(Long year, Long month, Pageable pageable) {
-		LocalDate dateFilter = LocalDate.of(year.intValue(), month.intValue(), 1);
-		LocalDate firstDayOfMonth = dateFilter.with(firstDayOfMonth());
-		LocalDate lastDayOfMonth = dateFilter.with(lastDayOfMonth());
-		
-		Page<IncomeDO> incomes = incomeRepository.findByDateBetweenOrderByDateAsc(firstDayOfMonth, lastDayOfMonth, pageable);
-		
-		List<IncomeResponseDTO> response = incomes.stream()
-				.map(incomeMapper::toResponseDTO)
+	public Page<IncomeResponseDTO> findByYearAndMonth(Integer year, Integer month, Pageable pageable) {
+
+		Page<IncomeDO> incomes = incomeRepository.findByDateBetweenOrderByDateAsc(
+				getFirstDayOfMonth(year, month), 
+				getLastDayOfMonth(year, month),
+				pageable);
+
+		List<IncomeResponseDTO> response = incomes.stream().map(incomeMapper::toResponseDTO)
 				.collect(Collectors.toList());
-		
+
 		return new PageImpl<>(response, pageable, incomes.getTotalElements());
+	}
+
+	@Override
+	public Optional<BigDecimal> summaryByMonth(Integer year, Integer month) {
+		return incomeRepository.findSumValueMonth(
+				getFirstDayOfMonth(year, month), 
+				getLastDayOfMonth(year, month)
+				);
 	}
 
 	@Override
@@ -89,10 +96,11 @@ public class IncomeServiceImpl implements IncomeService {
 	}
 
 	private void verifyIfDuplicate(Long id, IncomeRequestDTO incomeRequestDTO) throws IncomeAlreadyRegisteredException {
-		LocalDate firstDayOfMonth = incomeRequestDTO.getDate().with(firstDayOfMonth());
-		LocalDate lastDayOfMonth = incomeRequestDTO.getDate().with(lastDayOfMonth());
-		List<IncomeDO> incomeList = incomeRepository.findByDateBetweenAndDescriptionIgnoreCase(firstDayOfMonth,
-				lastDayOfMonth, incomeRequestDTO.getDescription());
+		List<IncomeDO> incomeList = incomeRepository.findByDateBetweenAndDescriptionIgnoreCase(
+				getFirstDayOfMonth(incomeRequestDTO.getDate().getYear(), incomeRequestDTO.getDate().getMonthValue()),
+				getLastDayOfMonth(incomeRequestDTO.getDate().getYear(), incomeRequestDTO.getDate().getMonthValue()), 
+				incomeRequestDTO.getDescription()
+				);
 
 		// TODO Melhorar a lógica da validação estudando boas praticas de programação
 
@@ -112,6 +120,16 @@ public class IncomeServiceImpl implements IncomeService {
 			throw new ResourceNotFoundException();
 		}
 		return incomeOptional.get();
+	}
+
+	private LocalDate getLastDayOfMonth(Integer year, Integer month) {
+		LocalDate dateFilter = LocalDate.of(year, month, 1);
+		return dateFilter.with(lastDayOfMonth());
+	}
+
+	private LocalDate getFirstDayOfMonth(Integer year, Integer month) {
+		LocalDate dateFilter = LocalDate.of(year, month, 1);
+		return dateFilter.with(firstDayOfMonth());
 	}
 
 }

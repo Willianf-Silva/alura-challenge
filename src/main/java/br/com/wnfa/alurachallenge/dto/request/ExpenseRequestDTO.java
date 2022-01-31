@@ -1,5 +1,6 @@
 package br.com.wnfa.alurachallenge.dto.request;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.EnumType;
@@ -38,5 +39,5 @@ public class ExpenseRequestDTO{
 	
 	@ApiModelProperty(notes = "Valor da despesa", required = true, example = "500.00")
     @DecimalMin("0.01")
-    private double value;
+    private BigDecimal value;
 }

@@ -26,7 +26,8 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .tags(
                 		new Tag("Receitas", "Gerenciamento das receitas"),
-                		new Tag("Despesas", "Gerenciamento das despesas")
+                		new Tag("Despesas", "Gerenciamento das despesas"),
+                		new Tag("Resumo", "Visão geral das receitas e despesas")
                 );
     }
 

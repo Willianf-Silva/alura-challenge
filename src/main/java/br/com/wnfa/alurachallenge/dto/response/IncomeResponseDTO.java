@@ -1,5 +1,6 @@
 package br.com.wnfa.alurachallenge.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,5 +28,5 @@ public class IncomeResponseDTO {
     private String description;
 
 	@ApiModelProperty(notes = "Valor da receita", required = true, example = "900.00")
-    private double value;
+    private BigDecimal value;
 }

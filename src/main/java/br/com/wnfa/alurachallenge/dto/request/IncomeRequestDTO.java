@@ -1,5 +1,6 @@
 package br.com.wnfa.alurachallenge.dto.request;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.validation.constraints.DecimalMin;
@@ -31,5 +32,5 @@ public class IncomeRequestDTO{
 
 	@ApiModelProperty(notes = "Valor da receita", required = true, example = "900.00")
     @DecimalMin("0.01")
-    private double value;
+    private BigDecimal value;
 }

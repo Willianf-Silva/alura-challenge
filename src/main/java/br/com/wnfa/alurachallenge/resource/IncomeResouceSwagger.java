@@ -53,8 +53,8 @@ public interface IncomeResouceSwagger {
 		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
 	@ApiOperation("Lista todas as receitas cadastradas de acordo com o ano e mês informado")
 	public ResponseEntity<Page<IncomeResponseDTO>> findByMesAndAno(
-			@ApiParam(value = "Filtrar o ano da receita", example = "2030") @PathVariable Long year,
-			@ApiParam(value = "Filtrar o mês da receita", example = "12") @PathVariable Long month,
+			@ApiParam(value = "Filtrar o ano da receita", example = "2030") @PathVariable Integer year,
+			@ApiParam(value = "Filtrar o mês da receita", example = "12") @PathVariable Integer month,
 			@ApiIgnore Pageable pageable
 			);
 	
