@@ -59,6 +59,14 @@ public class UserServiceImpl implements UserService{
 		UserDO userDO = verifyExists(id);
 		return userMapper.toResponseDTO(userDO);
 	}
+	
+	@Override
+	public void deleteById(Long id) throws Exception {
+		UserDO userDO = verifyExists(id);
+		userDO.setActive(Boolean.FALSE);
+		userDO.setDateUpdate(LocalDate.now());
+		userRepository.save(userDO);
+	}
 
 	private UserDO verifyExists(Long id) throws ResourceNotFoundException {
 		Optional<UserDO> userDO = userRepository.findById(id);

@@ -40,4 +40,9 @@ public interface UserResourceSwagger {
 	public ResponseEntity<UserResponseDTO> findById(
 			@ApiParam(value = "Identificador do usuário", example = "01")@PathVariable Long id
 			) throws Exception;
+	
+	@ApiOperation("Remove um usuário cadastrada no banco de dados")
+	public ResponseEntity<?> deleteById(
+			@ApiParam(value = "Identificador do usuário", example = "01") @PathVariable Long id
+			) throws Exception;
 }

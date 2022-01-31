@@ -16,4 +16,6 @@ public interface UserService {
 
 	UserResponseDTO findById(Long id) throws Exception;
 
+	void deleteById(Long id) throws Exception;
+
 }
