@@ -7,4 +7,6 @@ public interface UserService {
 
 	UserResponseDTO createUser(UserRequestDTO userRequestDTO);
 
+	UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) throws Exception;
+
 }
