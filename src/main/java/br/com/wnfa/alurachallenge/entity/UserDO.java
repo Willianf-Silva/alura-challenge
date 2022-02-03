@@ -1,12 +1,17 @@
 package br.com.wnfa.alurachallenge.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDO {
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,4 +52,12 @@ public class UserDO {
     private LocalDate dateCreate;
 
     private LocalDate dateUpdate;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "user_role", // nome da tabela que realiza o relacionamento entre user e role
+		joinColumns = @JoinColumn(name = "user_id"), // chave primaria da tabela atual
+		inverseJoinColumns = @JoinColumn(name = "role_id") // chave primaria da outra tabrela
+	)
+    private Set<RoleDO> roles; // Foi utilizado Set para forçar que o usuário não tenha repetição nas roles
 }

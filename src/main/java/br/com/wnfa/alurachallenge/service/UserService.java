@@ -8,7 +8,7 @@ import br.com.wnfa.alurachallenge.dto.response.UserResponseDTO;
 
 public interface UserService {
 
-	UserResponseDTO createUser(UserRequestDTO userRequestDTO);
+	UserResponseDTO createUser(UserRequestDTO userRequestDTO) throws Exception;
 
 	UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) throws Exception;
 

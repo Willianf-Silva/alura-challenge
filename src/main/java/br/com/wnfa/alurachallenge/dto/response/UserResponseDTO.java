@@ -1,5 +1,7 @@
 package br.com.wnfa.alurachallenge.dto.response;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -28,4 +30,6 @@ public class UserResponseDTO {
 
     @ApiModelProperty(notes = "Usuário está ativo na plataforma", required = true)
     private Boolean active;
+    
+    Set<RoleResponseDTO> roles;
 }

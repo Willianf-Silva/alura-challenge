@@ -23,7 +23,7 @@ import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
 import br.com.wnfa.alurachallenge.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserResource extends ResourceBase<UserResponseDTO> implements UserResourceSwagger {
 	@Autowired
 	private UserService userService;
@@ -33,7 +33,7 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 
 	@PostMapping
 	public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO userRequestDTO,
-			HttpServletResponse resp) {
+			HttpServletResponse resp) throws Exception {
 		UserResponseDTO user = userService.createUser(userRequestDTO);
 		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, user.getId()));
 		return responderItemCriado(user);

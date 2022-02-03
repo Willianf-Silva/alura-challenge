@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.wnfa.alurachallenge.exception.ExpenseAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.IncomeAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
+import br.com.wnfa.alurachallenge.exception.UserAlreadyRegisteredException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
     private MessageSource messageSource;
+	
+	@ExceptionHandler({UserAlreadyRegisteredException.class})
+    public ResponseEntity<Object> handleUserNotFoundException(UserAlreadyRegisteredException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("nome.usuario-existente", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 	
 	@ExceptionHandler({ExpenseAlreadyRegisteredException.class})
     public ResponseEntity<Object> handleUsuarioNotFoundException(ExpenseAlreadyRegisteredException ex, WebRequest request){

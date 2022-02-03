@@ -1,5 +1,7 @@
 package br.com.wnfa.alurachallenge.dto.request;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -29,4 +31,6 @@ public class UserRequestDTO {
 	@ApiModelProperty(notes = "Senha de acesso", required = true, example = "123will")
 	@NotBlank
     private String password;
+	
+	private Set<RoleRequestDTO> roles;
 }

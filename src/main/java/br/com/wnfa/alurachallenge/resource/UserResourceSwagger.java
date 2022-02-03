@@ -22,7 +22,7 @@ public interface UserResourceSwagger {
 	@ApiOperation("Incluir um novo usuário.")
 	public ResponseEntity<UserResponseDTO> createUser(
 			@ApiParam("Dados do usuário que será incluído") UserRequestDTO userRequestDTO, 
-			HttpServletResponse resp);
+			HttpServletResponse resp) throws Exception;
 	
 	@ApiOperation("Atualiza um usuário existente")
 	public ResponseEntity<UserResponseDTO> updateUser(

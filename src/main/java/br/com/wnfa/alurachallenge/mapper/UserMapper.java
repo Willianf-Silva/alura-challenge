@@ -17,6 +17,7 @@ public interface UserMapper {
 	@Mapping(target = "dateCreate", ignore = true)
 	@Mapping(target = "dateUpdate", ignore = true)
 	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "roles", ignore = true)
 	UserDO toModel(UserRequestDTO userRequestDTO);
 
     UserResponseDTO toResponseDTO(UserDO userDO);
