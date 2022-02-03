@@ -26,7 +26,7 @@ public class UserResponseDTO {
     private String email;
 
     @ApiModelProperty(notes = "Usuário de acesso", required = true, example = "will123")
-    private String user;
+    private String username;
 
     @ApiModelProperty(notes = "Usuário está ativo na plataforma", required = true)
     private Boolean active;

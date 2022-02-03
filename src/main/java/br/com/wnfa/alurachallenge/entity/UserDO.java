@@ -40,7 +40,7 @@ public class UserDO {
 
     @NotNull
     @Column(unique = true)
-    private String user;
+    private String username;
 
     @NotNull
     private String password;

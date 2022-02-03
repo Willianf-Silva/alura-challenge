@@ -26,7 +26,7 @@ public class UserRequestDTO {
 
 	@ApiModelProperty(notes = "Usuário de acesso", required = true, example = "will123")
 	@NotBlank
-    private String user;
+    private String username;
 
 	@ApiModelProperty(notes = "Senha de acesso", required = true, example = "123will")
 	@NotBlank

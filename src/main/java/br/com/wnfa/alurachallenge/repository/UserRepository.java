@@ -9,5 +9,5 @@ import br.com.wnfa.alurachallenge.entity.UserDO;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserDO, Long>{
-	List<UserDO> findByUser(String user);
+	List<UserDO> findByUsername(String username);
 }

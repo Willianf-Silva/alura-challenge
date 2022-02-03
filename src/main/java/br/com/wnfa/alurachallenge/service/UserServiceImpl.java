@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserResponseDTO createUser(UserRequestDTO userRequestDTO) throws Exception {
-		verifyDuplicate(null, userRequestDTO.getUser());
+		verifyDuplicate(null, userRequestDTO.getUsername());
 		UserDO user = userMapper.toModel(userRequestDTO);
 		user.setActive(Boolean.TRUE);
 		user.setDateCreate(LocalDate.now());
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) throws Exception {
-		verifyDuplicate(id, userRequestDTO.getUser());
+		verifyDuplicate(id, userRequestDTO.getUsername());
 		UserDO userDO = verifyExists(id);
 		userDO.setRoles(getRoles(userRequestDTO));
 		userDO.setDateUpdate(LocalDate.now());
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	private void verifyDuplicate(Long id, String user) throws Exception {
-		List<UserDO> userDO = userRepository.findByUser(user);
+		List<UserDO> userDO = userRepository.findByUsername(user);
 
 		// TODO Melhorar a lógica da validação estudando boas praticas de programação
 
