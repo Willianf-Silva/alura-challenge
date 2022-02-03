@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user")
+@Table(name = "tb_user")
 @Data
 @Builder
 @AllArgsConstructor
@@ -55,9 +55,9 @@ public class UserDO {
     
     @ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
-		name = "user_role", // nome da tabela que realiza o relacionamento entre user e role
-		joinColumns = @JoinColumn(name = "user_id"), // chave primaria da tabela atual
-		inverseJoinColumns = @JoinColumn(name = "role_id") // chave primaria da outra tabrela
+		name = "tb_user_role", // nome da tabela que realiza o relacionamento entre user e role
+		joinColumns = @JoinColumn(name = "tb_user_id"), // chave primaria da tabela atual
+		inverseJoinColumns = @JoinColumn(name = "tb_role_id") // chave primaria da outra tabrela
 	)
     private Set<RoleDO> roles; // Foi utilizado Set para forçar que o usuário não tenha repetição nas roles
 }
