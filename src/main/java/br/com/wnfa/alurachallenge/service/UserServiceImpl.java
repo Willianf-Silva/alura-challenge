@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfa.alurachallenge.dto.request.UserRequestDTO;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	private final UserMapper userMapper = UserMapper.INSTANCE;
 
 	@Override
@@ -39,6 +43,7 @@ public class UserServiceImpl implements UserService{
 		UserDO user = userMapper.toModel(userRequestDTO);
 		user.setActive(Boolean.TRUE);
 		user.setDateCreate(LocalDate.now());
+		user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
 		user.setRoles(getRoles(userRequestDTO));
 		
 		return userMapper.toResponseDTO(userRepository.save(user));
@@ -50,6 +55,7 @@ public class UserServiceImpl implements UserService{
 		UserDO userDO = verifyExists(id);
 		userDO.setRoles(getRoles(userRequestDTO));
 		userDO.setDateUpdate(LocalDate.now());
+		userRequestDTO.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
 		BeanUtils.copyProperties(userRequestDTO, userDO, "id");
 		return userMapper.toResponseDTO(userRepository.save(userDO));
 	}

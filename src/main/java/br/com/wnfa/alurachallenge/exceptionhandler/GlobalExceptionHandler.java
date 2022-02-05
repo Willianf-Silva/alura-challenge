@@ -1,6 +1,9 @@
 package br.com.wnfa.alurachallenge.exceptionhandler;
 
-import lombok.Getter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -20,10 +23,7 @@ import br.com.wnfa.alurachallenge.exception.ExpenseAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.IncomeAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
 import br.com.wnfa.alurachallenge.exception.UserAlreadyRegisteredException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import lombok.Getter;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
