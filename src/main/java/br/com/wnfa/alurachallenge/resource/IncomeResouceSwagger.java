@@ -20,18 +20,21 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "Receitas")
 public interface IncomeResouceSwagger {
 
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Inclui uma nova receita.")
 	public ResponseEntity<IncomeResponseDTO> newIncome(
 			@ApiParam("Receita que será incluída") IncomeRequestDTO incomeRequestDTO,
 			HttpServletResponse resp
 			) throws Exception;
 
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Atualiza uma receita existente")
 	public ResponseEntity<IncomeResponseDTO> updateIncome(
 			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id,
 			@ApiParam("Receita que será incluída.") IncomeRequestDTO incomeRequestDTO
 			) throws Exception;
 
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Busca uma receita cadastrada no banco de dados")
 	public ResponseEntity<IncomeResponseDTO> findById(
 			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id
@@ -41,6 +44,7 @@ public interface IncomeResouceSwagger {
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Lista todas as receitas cadastradas no banco de dados")
 	public ResponseEntity<?> findAll(
 			@ApiParam("Filtro para consulta de receita") IncomeFilter incomeFilter,
@@ -51,6 +55,7 @@ public interface IncomeResouceSwagger {
 		@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
 		@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Lista todas as receitas cadastradas de acordo com o ano e mês informado")
 	public ResponseEntity<Page<IncomeResponseDTO>> findByMesAndAno(
 			@ApiParam(value = "Filtrar o ano da receita", example = "2030") @PathVariable Integer year,
@@ -58,6 +63,7 @@ public interface IncomeResouceSwagger {
 			@ApiIgnore Pageable pageable
 			);
 	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Remove uma receita cadastrada no banco de dados")
 	public ResponseEntity<?> deleteById(
 			@ApiParam(value = "Identificador da receita", example = "01") @PathVariable Long id

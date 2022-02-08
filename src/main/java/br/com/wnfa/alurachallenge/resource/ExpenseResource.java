@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
     private ApplicationEventPublisher publicarEvento;
 	
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<ExpenseResponseDTO> newIncome(@RequestBody @Valid ExpenseRequestDTO expenseRequestDTO, HttpServletResponse resp) throws Exception {
 		ExpenseResponseDTO response = expenseService.createNewExpense(expenseRequestDTO);
 		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, response.getId()));
@@ -40,6 +42,7 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<ExpenseResponseDTO> updateIncome(@PathVariable Long id,
 			@RequestBody @Valid ExpenseRequestDTO expenseRequestDTO) throws Exception {
 
@@ -48,24 +51,28 @@ public class ExpenseResource extends ResourceBase<ExpenseResponseDTO> implements
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<ExpenseResponseDTO> findById(@PathVariable Long id) throws Exception {
 		ExpenseResponseDTO response = expenseService.findById(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@GetMapping("/{ano}/{mes}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<Page<ExpenseResponseDTO>> findByMesAndAno(@PathVariable Integer ano, @PathVariable Integer mes, Pageable pageable){
 		Page<ExpenseResponseDTO> expenses = expenseService.findByYearAndMonth(ano, mes, pageable);
 		return responderListaDeItensPaginada(expenses);
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<?> findAll(ExpenseFilter expenseFilter, Pageable pageable) {
 		Page<ExpenseResponseDTO> response = expenseService.findAll(expenseFilter, pageable);
 		return responderListaDeItensPaginada(response);
 	}
 
 	@DeleteMapping("{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) throws Exception{
 		expenseService.deleteById(id);
 		return responderSucesso();

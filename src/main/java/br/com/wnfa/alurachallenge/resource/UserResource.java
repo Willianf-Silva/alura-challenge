@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id,
 			@RequestBody @Valid UserRequestDTO userRequestDTO) throws Exception {
 
@@ -48,18 +50,21 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 	}
 
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<?> findAll(Pageable pageable) {
 		Page<UserResponseDTO> response = userService.findAll(pageable);
 		return responderListaDeItensPaginada(response);
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
 	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) throws Exception {
 		UserResponseDTO response = userService.findById(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@DeleteMapping("{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) throws Exception{
 		userService.deleteById(id);
 		return responderSucesso();

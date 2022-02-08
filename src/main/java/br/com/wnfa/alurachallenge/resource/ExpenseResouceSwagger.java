@@ -21,16 +21,19 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "Despesas")
 public interface ExpenseResouceSwagger {
 
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Inclui uma nova despesa.")
 	public ResponseEntity<ExpenseResponseDTO> newIncome(
 			@ApiParam("Despesa que será incluída") @RequestBody ExpenseRequestDTO expenseRequestDTO,
 			HttpServletResponse resp) throws Exception;
 
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Atualiza uma despesa existente")
 	public ResponseEntity<ExpenseResponseDTO> updateIncome(
 			@ApiParam(value = "Identificador da despesa", example = "01") @PathVariable Long id,
 			@ApiParam("Despesa que será incluída.") @RequestBody ExpenseRequestDTO expenseRequestDTO) throws Exception;
 
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Busca uma despesa cadastrada no banco de dados")
 	public ResponseEntity<ExpenseResponseDTO> findById(
 			@ApiParam(value = "Identificador da despesa", example = "01") @PathVariable Long id) throws Exception;
@@ -39,6 +42,7 @@ public interface ExpenseResouceSwagger {
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Lista todas as despesas cadastradas no banco de dados")
 	public ResponseEntity<?> findAll(
 			@ApiParam("Filtro para consulta de despesa") ExpenseFilter expenseFilter, 
@@ -49,6 +53,7 @@ public interface ExpenseResouceSwagger {
 		@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
 		@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Lista todas as despesas cadastradas de acordo com o ano e mês informado")
 	public ResponseEntity<Page<ExpenseResponseDTO>> findByMesAndAno(
 			@ApiParam(value = "Filtrar o ano da despesa", example = "2030") @PathVariable Integer year,
@@ -56,6 +61,7 @@ public interface ExpenseResouceSwagger {
 			@ApiIgnore Pageable pageable
 			);
 	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Remove uma despesa cadastrada no banco de dados")
 	public ResponseEntity<?> deleteById(
 			@ApiParam(value = "Identificador da despesa", example = "01") @PathVariable Long id

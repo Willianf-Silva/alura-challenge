@@ -24,6 +24,7 @@ public interface UserResourceSwagger {
 			@ApiParam("Dados do usuário que será incluído") UserRequestDTO userRequestDTO, 
 			HttpServletResponse resp) throws Exception;
 	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Atualiza um usuário existente")
 	public ResponseEntity<UserResponseDTO> updateUser(
 			@ApiParam(value = "Identificador único do usuário", example = "01") @PathVariable Long id,
@@ -33,14 +34,17 @@ public interface UserResourceSwagger {
 		@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "1"),
 		@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"),
 		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros") })
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Lista todos os usuários cadastrados no banco de dados")
 	public ResponseEntity<?> findAll(@ApiIgnore Pageable pageable);
 	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Busca um usuário cadastrado no banco de dados")
 	public ResponseEntity<UserResponseDTO> findById(
 			@ApiParam(value = "Identificador do usuário", example = "01")@PathVariable Long id
 			) throws Exception;
 	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Remove um usuário cadastrada no banco de dados")
 	public ResponseEntity<?> deleteById(
 			@ApiParam(value = "Identificador do usuário", example = "01") @PathVariable Long id
