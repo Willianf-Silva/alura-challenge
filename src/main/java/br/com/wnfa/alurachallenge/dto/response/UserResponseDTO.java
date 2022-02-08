@@ -31,5 +31,6 @@ public class UserResponseDTO {
     @ApiModelProperty(notes = "Usuário está ativo na plataforma", required = true)
     private Boolean active;
     
-    Set<RoleResponseDTO> roles;
+    @ApiModelProperty(notes = "Roles para autorização de acesso", required = true)
+    private Set<RoleResponseDTO> roles;
 }

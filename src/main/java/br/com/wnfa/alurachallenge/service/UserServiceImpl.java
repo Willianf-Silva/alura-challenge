@@ -19,6 +19,7 @@ import br.com.wnfa.alurachallenge.dto.response.UserResponseDTO;
 import br.com.wnfa.alurachallenge.entity.RoleDO;
 import br.com.wnfa.alurachallenge.entity.UserDO;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
+import br.com.wnfa.alurachallenge.exception.RolesNotFoundException;
 import br.com.wnfa.alurachallenge.exception.UserAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.mapper.UserMapper;
 import br.com.wnfa.alurachallenge.repository.RoleRepository;
@@ -93,11 +94,15 @@ public class UserServiceImpl implements UserService{
 		return userDO.get();
 	}
 
-	private Set<RoleDO> getRoles(UserRequestDTO userRequestDTO) {
+	private Set<RoleDO> getRoles(UserRequestDTO userRequestDTO) throws Exception {
 		Set<RoleDO> roles = userRequestDTO.getRoles().stream()
-		.map(roleName -> roleRepository.findByRoleName(roleName.getRoleName()))
-		.collect(Collectors.toSet());
-		return roles;
+				.map(roleName -> roleRepository.findByRoleName(roleName.getRoleName()))
+				.filter(role -> role != null)
+				.collect(Collectors.toSet());
+		if (roles.isEmpty()) {
+			throw new RolesNotFoundException();
+		}
+				return roles;
 	}
 
 	private void verifyDuplicate(Long id, String user) throws Exception {

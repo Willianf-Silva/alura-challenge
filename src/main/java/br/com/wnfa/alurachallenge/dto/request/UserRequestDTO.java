@@ -3,6 +3,7 @@ package br.com.wnfa.alurachallenge.dto.request;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -32,5 +33,7 @@ public class UserRequestDTO {
 	@NotBlank
     private String password;
 	
+	@ApiModelProperty(notes = "Roles para autorização de acesso", required = true)
+	@NotNull
 	private Set<RoleRequestDTO> roles;
 }

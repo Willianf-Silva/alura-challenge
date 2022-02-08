@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.wnfa.alurachallenge.exception.ExpenseAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.IncomeAlreadyRegisteredException;
 import br.com.wnfa.alurachallenge.exception.ResourceNotFoundException;
+import br.com.wnfa.alurachallenge.exception.RolesNotFoundException;
 import br.com.wnfa.alurachallenge.exception.UserAlreadyRegisteredException;
 import lombok.Getter;
 
@@ -30,6 +31,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
     private MessageSource messageSource;
+	
+	@ExceptionHandler({RolesNotFoundException.class})
+    public ResponseEntity<Object> handleRolesNotFoundException(RolesNotFoundException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("role-inexistente", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 	
 	@ExceptionHandler({UserAlreadyRegisteredException.class})
     public ResponseEntity<Object> handleUserNotFoundException(UserAlreadyRegisteredException ex, WebRequest request){
