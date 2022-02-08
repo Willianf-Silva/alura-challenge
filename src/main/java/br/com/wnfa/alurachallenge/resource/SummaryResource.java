@@ -19,7 +19,7 @@ public class SummaryResource extends ResourceBase<SummaryResponseDTO> implements
 	private SummaryService summaryService;
 
 	@GetMapping("/{ano}/{mes}")
-	@PreAuthorize("hasRole('ROLE_MASTER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_MASTER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
 	public ResponseEntity<SummaryResponseDTO> findByMesAndAno(@PathVariable Integer ano, @PathVariable Integer mes){
 		SummaryResponseDTO summaryResponseDTO = summaryService.findByYearAndMonth(ano, mes);
 		return responderSucessoComItem(summaryResponseDTO);

@@ -34,7 +34,7 @@ public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements I
     private ApplicationEventPublisher publicarEvento;
 	
 	@PostMapping
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<IncomeResponseDTO> newIncome(@RequestBody @Valid IncomeRequestDTO incomeRequestDTO, HttpServletResponse resp) throws Exception {
 		IncomeResponseDTO response = incomeService.createNewIncome(incomeRequestDTO);
 		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, response.getId()));
@@ -42,7 +42,7 @@ public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements I
 	}
 
 	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<IncomeResponseDTO> updateIncome(@PathVariable Long id,
 			@RequestBody @Valid IncomeRequestDTO incomeRequestDTO) throws Exception {
 
@@ -51,28 +51,28 @@ public class IncomeResource extends ResourceBase<IncomeResponseDTO> implements I
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
 	public ResponseEntity<IncomeResponseDTO> findById(@PathVariable Long id) throws Exception {
 		IncomeResponseDTO response = incomeService.findById(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@GetMapping("/{ano}/{mes}")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<IncomeResponseDTO>> findByMesAndAno(@PathVariable Integer ano, @PathVariable Integer mes, Pageable pageable){
 		Page<IncomeResponseDTO> incomes = incomeService.findByYearAndMonth(ano, mes, pageable);
 		return responderListaDeItensPaginada(incomes);
 	}
 
 	@GetMapping
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
 	public ResponseEntity<?> findAll(IncomeFilter incomeFilter, Pageable pageable) {
 		Page<IncomeResponseDTO> response = incomeService.findAll(incomeFilter, pageable);
 		return responderListaDeItensPaginada(response);
 	}
 	
 	@DeleteMapping("{id}")	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) throws Exception{
 		incomeService.deleteById(id);
 		return responderSucesso();

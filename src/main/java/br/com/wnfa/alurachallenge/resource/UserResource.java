@@ -41,7 +41,7 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 	}
 
 	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id,
 			@RequestBody @Valid UserRequestDTO userRequestDTO) throws Exception {
 
@@ -50,21 +50,21 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 	}
 
 	@GetMapping
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
 	public ResponseEntity<?> findAll(Pageable pageable) {
 		Page<UserResponseDTO> response = userService.findAll(pageable);
 		return responderListaDeItensPaginada(response);
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
 	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) throws Exception {
 		UserResponseDTO response = userService.findById(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) throws Exception{
 		userService.deleteById(id);
 		return responderSucesso();
