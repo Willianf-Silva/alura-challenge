@@ -47,6 +47,8 @@ Após executar o comando acima, basta apenas abrir os seguintes endereços e vis
 
 `http://localhost:8080/api/v1/tokens/revoke`
 
+`http://localhost:8080/oauth/token`
+
 # 
 Documentação
 
