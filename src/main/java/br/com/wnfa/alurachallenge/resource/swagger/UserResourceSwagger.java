@@ -1,4 +1,4 @@
-package br.com.wnfa.alurachallenge.resource;
+package br.com.wnfa.alurachallenge.resource.swagger;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

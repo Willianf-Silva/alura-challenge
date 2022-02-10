@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wnfa.alurachallenge.config.property.WnfaApiProperty;
+import br.com.wnfa.alurachallenge.resource.swagger.TokenResourceSwagger;
 
 @RestController
 @RequestMapping("/api/v1/tokens")
-public class TokenResource {
+public class TokenResource implements TokenResourceSwagger{
 	
 	@Autowired
 	private WnfaApiProperty wnfaApiProperty;

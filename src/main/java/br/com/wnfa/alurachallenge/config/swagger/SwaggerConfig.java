@@ -28,7 +28,8 @@ public class SwaggerConfig {
                 		new Tag("Usuários", "Gerenciamento dos usuários"),
                 		new Tag("Receitas", "Gerenciamento das receitas"),
                 		new Tag("Despesas", "Gerenciamento das despesas"),
-                		new Tag("Resumo", "Visão geral das receitas e despesas")
+                		new Tag("Resumo", "Visão geral das receitas e despesas"),
+                		new Tag("Token", "Gerenciamento de token")
                 );
     }
 

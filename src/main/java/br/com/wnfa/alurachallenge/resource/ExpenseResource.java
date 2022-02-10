@@ -22,6 +22,7 @@ import br.com.wnfa.alurachallenge.dto.request.ExpenseRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.ExpenseResponseDTO;
 import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
 import br.com.wnfa.alurachallenge.repository.filter.ExpenseFilter;
+import br.com.wnfa.alurachallenge.resource.swagger.ExpenseResouceSwagger;
 import br.com.wnfa.alurachallenge.service.ExpenseService;
 
 @RestController

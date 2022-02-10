@@ -22,6 +22,7 @@ import br.com.wnfa.alurachallenge.dto.request.IncomeRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.IncomeResponseDTO;
 import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
 import br.com.wnfa.alurachallenge.repository.filter.IncomeFilter;
+import br.com.wnfa.alurachallenge.resource.swagger.IncomeResouceSwagger;
 import br.com.wnfa.alurachallenge.service.IncomeService;
 
 @RestController

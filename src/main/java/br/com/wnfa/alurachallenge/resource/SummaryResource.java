@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wnfa.alurachallenge.dto.response.SummaryResponseDTO;
+import br.com.wnfa.alurachallenge.resource.swagger.SummaryResourceSwagger;
 import br.com.wnfa.alurachallenge.service.SummaryService;
 
 @RestController

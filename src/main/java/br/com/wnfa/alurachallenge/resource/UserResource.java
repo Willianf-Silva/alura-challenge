@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.wnfa.alurachallenge.dto.request.UserRequestDTO;
 import br.com.wnfa.alurachallenge.dto.response.UserResponseDTO;
 import br.com.wnfa.alurachallenge.event.ResourceCreatedEvent;
+import br.com.wnfa.alurachallenge.resource.swagger.UserResourceSwagger;
 import br.com.wnfa.alurachallenge.service.UserService;
 
 @RestController

@@ -1,4 +1,4 @@
-package br.com.wnfa.alurachallenge.resource;
+package br.com.wnfa.alurachallenge.resource.swagger;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
