@@ -13,35 +13,37 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import br.com.wnfa.alurachallenge.config.property.WnfaApiProperty;
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
-	
-	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60;
-	private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 3600;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private WnfaApiProperty wnfaApiProperty;
+	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		
 		clients.inMemory()
-				.withClient("angular")
-				.secret(passwordEncoder.encode("angul@r"))
+				.withClient(wnfaApiProperty.getSecurity().getClientWeb())
+				.secret(passwordEncoder.encode(wnfaApiProperty.getSecurity().getSecretKeyClientWeb()))
 				.scopes("read", "write")
 				.authorizedGrantTypes("password", "refresh_token")
-				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-				.refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
+				.accessTokenValiditySeconds(wnfaApiProperty.getSecurity().getAccessTokenValidity())
+				.refreshTokenValiditySeconds(wnfaApiProperty.getSecurity().getRefreshTokenValidity())
 			.and()
-				.withClient("mobile")
-				.secret(passwordEncoder.encode("mobil3"))
+				.withClient(wnfaApiProperty.getSecurity().getClientMobile())
+				.secret(passwordEncoder.encode(wnfaApiProperty.getSecurity().getSecretKeyClientMobile()))
 				.scopes("read")
 				.authorizedGrantTypes("password", "refresh_token")
-				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-				.refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
+				.accessTokenValiditySeconds(wnfaApiProperty.getSecurity().getAccessTokenValidity())
+				.refreshTokenValiditySeconds(wnfaApiProperty.getSecurity().getRefreshTokenValidity());
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-		accessTokenConverter.setSigningKey("secretkey");
+		accessTokenConverter.setSigningKey(wnfaApiProperty.getSecurity().getSecretKeyApp());
 		return accessTokenConverter;
 	}
 

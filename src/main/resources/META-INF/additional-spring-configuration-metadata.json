@@ -1,5 +1,42 @@
-{"properties": [{
-  "name": "wnfa.security.enable-https",
-  "type": "java.lang.Boolean",
-  "description": "A description for 'wnfa.seguranca.enable-https'"
-}]}
+{"properties": [
+  {
+    "name": "wnfa.security.enable-https",
+    "type": "java.lang.Boolean",
+    "description": "Habilita segurança HTTPS para o cookie"
+  },
+  {
+    "name": "wnfa.security.secret-key-client-mobile",
+    "type": "java.lang.String",
+    "description": "Segredo da aplicação mobile para autenticação no sistema"
+  },
+  {
+    "name": "wnfa.security.client-mobile",
+    "type": "java.lang.String",
+    "description": "Nome da aplicação mobile para autenticação no sistema"
+  },
+  {
+    "name": "wnfa.security.secret-key-client-web",
+    "type": "java.lang.String",
+    "description": "Nome da aplicação web para autenticação no sistema"
+  },
+  {
+    "name": "wnfa.security.client-web",
+    "type": "java.lang.String",
+    "description": "Segredo da aplicação web para autenticação no sistema"
+  },
+  {
+    "name": "wnfa.security.secret-key-app",
+    "type": "java.lang.String",
+    "description": "Segredo da aplicação para geração do token JWT"
+  },
+  {
+    "name": "wnfa.security.access-token-validity",
+    "type": "java.lang.Integer",
+    "description": "Validade do access token"
+  },
+  {
+    "name": "wnfa.security.refresh-token-validity",
+    "type": "java.lang.Integer",
+    "description": "Validade do refresh token"
+  }
+]}

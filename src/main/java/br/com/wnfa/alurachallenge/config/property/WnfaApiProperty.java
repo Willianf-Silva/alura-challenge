@@ -2,6 +2,9 @@ package br.com.wnfa.alurachallenge.config.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @ConfigurationProperties("wnfa")
 public class WnfaApiProperty {
 	
@@ -11,15 +14,16 @@ public class WnfaApiProperty {
 		return security;
 	}
 
+	@Getter
+	@Setter
 	public static class Security {
 		private boolean enableHttps;
-		
-		public boolean isEnableHttps() {
-			return enableHttps;
-		}
-		
-		public void setEnableHttps(boolean enableHttps) {
-			this.enableHttps = enableHttps;
-		}
+		private String secretKeyApp;
+		private Integer accessTokenValidity;
+		private Integer refreshTokenValidity;
+		private String clientWeb;
+		private String secretKeyClientWeb;
+		private String clientMobile;
+		private String secretKeyClientMobile;		
 	}
 }
