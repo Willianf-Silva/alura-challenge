@@ -38,5 +38,10 @@
     "name": "wnfa.security.refresh-token-validity",
     "type": "java.lang.Integer",
     "description": "Validade do refresh token"
+  },
+  {
+    "name": "wnfa.security.origins-allowed",
+    "type": "java.lang.String",
+    "description": "String com todos os endereços das aplicaçoes web que utiliza. Necessário separar por virgula,sem espaço"
   }
 ]}

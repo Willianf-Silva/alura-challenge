@@ -48,9 +48,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		http.cors().and()
 			.authorizeRequests()
 			.antMatchers(AUTH_WHITELIST).permitAll()
-			.antMatchers(HttpMethod.POST,"/oauth/token**").permitAll()
-			.antMatchers(HttpMethod.POST,"/api/v1/users/**").permitAll()
-			.antMatchers("/**").authenticated()
+			.antMatchers(HttpMethod.POST,"/oauth/token").permitAll()
+			.antMatchers("/api/v1/**").authenticated()
 			.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.csrf().disable();
