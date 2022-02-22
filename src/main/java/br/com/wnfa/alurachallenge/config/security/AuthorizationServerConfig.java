@@ -3,8 +3,10 @@ package br.com.wnfa.alurachallenge.config.security;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -60,47 +62,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.reuseRefreshTokens(false)
 			.authenticationManager(authenticationManager);
 	}
-
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration configCorsOauth = configureCorsOauth();
-		CorsConfiguration configCorsApi = configureCorsApi();
-        
-        source.registerCorsConfiguration("/oauth/token", configCorsOauth);
-		source.registerCorsConfiguration("/api/v1/**", configCorsApi);
-        CorsFilter filter = new CorsFilter(source);
-        security.addTokenEndpointAuthenticationFilter(filter);
-	}
-
-	private CorsConfiguration configureCorsApi() {
-		CorsConfiguration configureCorsApi = configureCorsOauth();
-		configureCorsApi.setAllowCredentials(true);
-		return configureCorsApi;
-	}
-
-	private CorsConfiguration configureCorsOauth() {
-		final List<String> ORIGINS_ALLOWED =wnfaApiProperty.getSecurity().getOrigins();
-		CorsConfiguration config = new CorsConfiguration();
-//        config.applyPermitDefaultValues(); //Exemplo utilizado para liberar todo o CORS (https://stackoverflow.com/questions/44625488/spring-security-cors-error-when-enable-oauth2)
-        
-		for (String origin : ORIGINS_ALLOWED) {
-        	config.addAllowedOrigin(origin);			
-		}
-        
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("PATCH");
-        
-        config.addAllowedHeader("Authorization");
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedHeader("Accept");
-        config.setMaxAge(3600L);
-		return config;
-	}
 	
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
@@ -112,5 +73,29 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());
+	}
+	
+	@Bean
+	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
+	    FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(corsFilter());
+	    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	    return bean;
+	}
+	
+	private CorsFilter corsFilter() {
+		final List<String> ORIGINS_ALLOWED = wnfaApiProperty.getSecurity().getOrigins();
+		
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    CorsConfiguration config = new CorsConfiguration();
+	    
+	    for (String origin : ORIGINS_ALLOWED) {
+        	config.addAllowedOrigin(origin);			
+		}
+	    	
+	    config.setAllowCredentials(true);
+	    config.addAllowedHeader("*");
+	    config.addAllowedMethod("*");
+	    source.registerCorsConfiguration("/**", config);
+	    return new CorsFilter(source);
 	}
 }
