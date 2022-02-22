@@ -45,6 +45,12 @@ public interface UserResourceSwagger {
 			) throws Exception;
 	
 	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
+	@ApiOperation("Busca um usuário cadastrado no banco de dados utilizando o username")
+	public ResponseEntity<UserResponseDTO> findByUsername(
+			@ApiParam(value = "Username utilizado para autenticação no sistema", example = "admin") @PathVariable String username
+			) throws Exception;
+	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	@ApiOperation("Remove um usuário cadastrada no banco de dados")
 	public ResponseEntity<?> deleteById(
 			@ApiParam(value = "Identificador do usuário", example = "01") @PathVariable Long id

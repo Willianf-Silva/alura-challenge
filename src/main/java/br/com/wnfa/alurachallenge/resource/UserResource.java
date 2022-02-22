@@ -63,6 +63,13 @@ public class UserResource extends ResourceBase<UserResponseDTO> implements UserR
 		UserResponseDTO response = userService.findById(id);
 		return responderSucessoComItem(response);
 	}
+
+	@GetMapping("/login/{username}")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR') and #oauth2.hasScope('read')")
+	public ResponseEntity<UserResponseDTO> findByUsername(@PathVariable String username) throws Exception {
+		UserResponseDTO response = userService.findByUsername(username);
+		return responderSucessoComItem(response);
+	}
 	
 	@DeleteMapping("{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN') and #oauth2.hasScope('write')")

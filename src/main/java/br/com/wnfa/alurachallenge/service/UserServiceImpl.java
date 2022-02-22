@@ -86,6 +86,15 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(userDO);
 	}
 
+	@Override
+	public UserResponseDTO findByUsername(String username) throws Exception {
+		List<UserDO> users = userRepository.findByUsername(username);
+		if (users.isEmpty()) {
+			throw new ResourceNotFoundException();
+		}
+		return userMapper.toResponseDTO(users.get(0));
+	}
+
 	private UserDO verifyExists(Long id) throws ResourceNotFoundException {
 		Optional<UserDO> userDO = userRepository.findById(id);
 		if (userDO.isEmpty()) {
